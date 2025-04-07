@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Salon Booking Widget</title>
+    <link rel="stylesheet" href="./style.css">
+</head>
+
+<body>
+    <div class="salon-container">
+        <header class="salon-header">
+            <div class="salon-info">
+                <div class="icon">N</div>
+                <div class="salon-details">
+                    <div class="salon-location salon-mob-title" style="align-items:flex-start;">
+                        <div>
+                            <h2 class="salon-title">Natural Beauty Salon, Spa and <br> Wellness Center</h2>
+                            <h2 class="salon-kiddy">Kiddy Corture</h2>
+                        </div>
+
+                        <p class="icon-align" style="margin-top:8px;"><img src="./assests/icons/starrating.svg"
+                                alt="address icon" width="16px" height="15px" /> 4.8</p>
+                    </div>
+
+                    <div class="salon-location">
+                        <p class="icon-align location-w" style="margin-bottom: 0;"><img
+                                src="./assests/icons/addressicon.svg" alt="address icon" width="16px" height="20px"
+                                class="location-desktop-img" />
+                            <img src="./assests/icons/addressmobicon.svg" alt="address icon" width="16px" height="20px"
+                                class="location-mob-img" />
+                            319, Bin Sougat centre, Rashidiya
+                            branch, UAE.
+                        </p>
+                        <p class="icon-align view-mob" style="margin-bottom: 0;"><img src="./assests/icons/mapicon.svg"
+                                alt="map icon" width="13px" height="11px" /> View Map</p>
+                    </div>
+
+                    <p class="icon-align"> <img src="./assests/icons/clock.svg" alt="clock icon" width="16px"
+                            height="16px" class="location-desktop-img" />
+                        <img src="./assests/icons/clockmob.svg" alt="clock icon" width="16px" height="16px"
+                            class="location-mob-img" />
+                        9:00 AM to 9:00 PM <span class="open-booking">Open</span>
+                    </p>
+                    <p class="icon-align"> <img src="./assests/icons/bookimg.svg" alt="booking icon" width="14px"
+                            height="19px" class="location-desktop-img" />
+                        <img src="./assests/icons/bookimgmob.svg" alt="booking icon" width="14px" height="19px"
+                            class="location-mob-img" />
+                        Instant booking
+                    </p>
+                </div>
+            </div>
+            <div class="salon-image">
+                <main class="main">
+                    <div class="carousel">
+                        <button type="button" class="carousel_btn jsPrev" aria-label="Previous slide">
+                            <img src="./assests/icons/arrowleft.svg" alt="Left Arrow" />
+                        </button>
+
+                        <div class="carousel_track-container">
+                            <ul class="carousel_track">
+                                <li class="carousel_slide is-selected">
+                                    <div class="carousel_image">
+                                        <img src="./assests/images/salonimg.png" alt="Salon" />
+                                    </div>
+
+                                </li>
+                                <li class="carousel_slide">
+                                    <div class="carousel_image">
+                                        <img src="./assests/images/makeup.webp" alt="Salon" />
+                                    </div>
+
+                                </li>
+                                <li class="carousel_slide">
+                                    <div class="carousel_image">
+                                        <img src="./assests/images/haircut.jpeg" alt="Salon" />
+                                    </div>
+
+                                </li>
+                                <li class="carousel_slide">
+                                    <div class="carousel_image">
+                                        <img src="./assests/images/hairladycut.jpeg" alt="Salon" />
+                                    </div>
+
+                                </li>
+                            </ul>
+                        </div>
+
+                        <button type="button" class="carousel_btn jsNext" aria-label="Next slide">
+                            <img src="./assests/icons/arrowright.svg" alt="Right Arrow" />
+                        </button>
+                    </div>
+                </main>
+            </div>
+
+        </header>
+
+        <main class="booking-container">
+
+            <div id="add-services">
+                <div class="tabs">
+                    <button id="services-tab" class="active-tab" onclick="showTab('services')">Services</button>
+                    <button id="vouchers-tab" onclick="showTab('vouchers')">Gift Vouchers</button>
+                </div>
+
+                <!-- Services Section -->
+                <div id="services-section" class="tab-content active-tab-content">
+                    <aside class="categories">
+                        <ul id="category-list"></ul>
+                    </aside>
+
+                    <section class="services" id="services-container">
+                        <!-- Services loaded via JS -->
+                    </section>
+
+
+                </div>
+
+                <!-- Gift Vouchers Section -->
+                <div id="vouchers-section" class="tab-content">
+                    <section class="vouchers">
+                        <div id="voucher-list">
+                            <!-- Voucher items injected dynamically via JS -->
+                        </div>
+                    </section>
+                </div>
+            </div>
+            <section class="booking-selection d-none" id="booking-selection">
+                <!-- Staff Selection -->
+                <div class="staff-selection">
+                    <h3 class="staff-title">Select staff</h3>
+                    <div class="custom-radio-group">
+                        <label class="custom-radio"><input type="radio" name="staff" value="no-preference" checked /> No
+                            preference <span class="checkmark"></span></label>
+                        <label class="custom-radio"><input type="radio" name="staff" value="ryan" /> Ryan <span
+                                class="checkmark"></span></label>
+                        <label class="custom-radio"><input type="radio" name="staff" value="john" /> John <span
+                                class="checkmark"></span></label>
+                        <label class="custom-radio"><input type="radio" name="staff" value="amaya" /> Amaya <span
+                                class="checkmark"></span></label>
+                        <label class="custom-radio"><input type="radio" name="staff" value="sam" /> Sam <span
+                                class="checkmark"></span></label>
+                        <label class="custom-radio"><input type="radio" name="staff" value="anna" /> Anna <span
+                                class="checkmark"></span></label>
+                    </div>
+                </div>
+
+                <!-- Date Selection -->
+                <div class="date-selection">
+                    <h3 class="staff-title">Select Date</h3>
+                    <p class="month-show">October</p>
+                    <div class="date-slider">
+                        <button class="prev-date">&lt;</button>
+                        <div class="date-items">
+                            <div class="date-item">01<br><small>Mon</small></div>
+                            <div class="date-item">02<br><small>Tue</small></div>
+                            <div class="date-item">03<br><small>Wed</small></div>
+                            <div class="date-item">04<br><small>Thu</small></div>
+                            <div class="date-item">05<br><small>Fri</small></div>
+                            <div class="date-item">06<br><small>Sat</small></div>
+                            <div class="date-item">07<br><small>Sun</small></div>
+                        </div>
+                        <button class="next-date">&gt;</button>
+                    </div>
+                </div>
+
+                <!-- Time Selection -->
+                <div class="time-selection">
+                    <h3 class="staff-title">Select Time</h3>
+                    <div class="time-show">
+                        <div class="time-group">
+                            <h4>Early hours</h4>
+                            <div class="time-options">
+                                <button>9:00 AM</button>
+                                <button class="">9:15 AM</button>
+                                <button>9:30 AM</button>
+                                <button>9:45 AM</button>
+                                <button>10:00 AM</button>
+                                <button>10:15 AM</button>
+                                <button>10:30 AM</button>
+                                <button>10:45 AM</button>
+                                <button>11:00 AM</button>
+                                <button>11:15 AM</button>
+                                <button>11:30 AM</button>
+                                <button>12:00 PM</button>
+                            </div>
+                        </div>
+
+                        <div class="time-group">
+                            <h4>Late hours</h4>
+                            <div class="time-options">
+                                <button>4:00 PM</button>
+                                <button>4:15 PM</button>
+                                <button>4:30 PM</button>
+                                <button>4:45 PM</button>
+                                <button>5:00 PM</button>
+                                <button>5:15 PM</button>
+                                <button>5:30 PM</button>
+                                <button>5:45 PM</button>
+                                <button>6:00 PM</button>
+                                <button>6:15 PM</button>
+                                <button>6:30 PM</button>
+                                <button>6:45 PM</button>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </section>
+            <aside class="cart-summary">
+
+                <div id="cart-summary">
+
+
+                    <h2 class="empty-title">Your Card is Empty</h2>
+                    <div class="empty-cart">
+                        <div class="empty-cart-icon">
+                            <img src="./assests/icons/serviceemptycard.png" alt="Empty" />
+                            <p>Good looks always gives you
+                                the confidence! Go ahead,
+                                Select some services.</p>
+
+                        </div>
+                    </div>
+                </div>
+
+            </aside>
+        </main>
+
+        <!--Customer Details modal -->
+        <div class="modal-container d-none" id="modal-container">
+            <img src="./assests/icons/close.svg" alt="Close Icon" class="close-modal" onclick="openCustomer()" />
+            <div class="modal-content">
+                <h2>Enter your details</h2>
+                <p class="subheading">Enter your details to book an appointment</p>
+
+                <form class="booking-form">
+                    <label>First name</label>
+                    <input type="text" placeholder="Andrew" />
+
+                    <label>Last name</label>
+                    <input type="text" placeholder="Simon" />
+
+                    <label>Email address</label>
+                    <input type="email" placeholder="example@mail.com" />
+
+                    <label>Date of birth</label>
+                    <div class="dob-input">
+                        <input type="date" id="dob" />
+                        <input type="text" placeholder="DD/MM/YYYY" id="dob-display" readonly />
+                        <img src="./assests/icons/calendar-icon.svg" alt="calendar" id="calendar-icon" />
+                    </div>
+
+
+                    <label>Mobile number</label>
+                    <input type="tel" placeholder="2345167891" />
+                    <small class="mobile-hint">
+                        Please avoid “0” before the mobile number. Enter mobile
+                        number as shown here. Example: 23451 67891.
+                    </small>
+
+                    <textarea placeholder="Booking notes"></textarea>
+
+                    <div class="payment-section">
+                        <label>Choose payment<span class="required">*</span></label>
+                        <div class="payment-option">
+                            <label class="custom-radio"><input type="radio" name="payment" checked /> Minimum <span
+                                    class="checkmark"></span></label>
+                            <span class="price">$30</span>
+                        </div>
+                        <div class="payment-option">
+                            <label class="custom-radio"><input type="radio" name="payment" /> Full Payment <span
+                                    class="checkmark"></span></label>
+                            <span class="price">$310</span>
+                        </div>
+                    </div>
+
+                    <div class="terms">
+                        <span><img src="./assests/icons/termsicon.svg" alt="Terms icon" /></span>
+                        <a>Terms & Conditions</a>
+                    </div>
+
+                    <button type="submit" class="book-btn">Book Now</button>
+                </form>
+            </div>
+        </div>
+
+    </div>
+    <section class="payment-modal d-none" id="pay-modal">
+        <div class="payment-content" style="text-align: center;">
+            <div style="position: relative;">
+                <img src="./assests/icons/paycircle.svg" alt="paycircle icon" />
+                <img src="./assests/icons/paytick.svg" alt="paytick icon" class="pay-success" />
+            </div>
+            <p>Payment Success.</p>
+            <h2>Booking completed.</h2>
+            <small>Booking Details</small>
+        </div>
+    </section>
+    <footer class="footer">
+        <div class="foot-max">
+            <p class="foot-desp">
+                Beauty Services in Beta 1 Plaza / Hair Services in Beta 1 Plaza / Beauty Services in Madhead Studios /
+                Beauty Services in Beta 1 Plaza / Hair Services in Beta 1 Plaza / Beauty Services in Madhead Studios /
+                Beauty Services in Beta 1 Plaza / Hair Services in Beta 1 Plaza / Beauty Services in Madhead Studios /
+            </p>
+            <div class="copy-right">
+                <p>Online bookings powered by Miosalon |</p>
+                <p>copyrights 2019. All rights reserved | Terms & Conditions | Privacy Policy</p>
+            </div>
+        </div>
+
+    </footer>
+    <div class="overlay-span" id="overlay" onclick="openCustomer()"></div>
+
+    <script src="./index.js"></script>
+</body>
+
+</html>

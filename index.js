@@ -353,6 +353,7 @@ function openCustomer() {
 
 // Handling Form Submit:
 const form = document.querySelector(".booking-form");
+const loader = document.getElementById("loading-state")
 
 form.addEventListener("submit", function (e) {
     e.preventDefault();
@@ -366,6 +367,8 @@ form.addEventListener("submit", function (e) {
         alert("Please fill in all required fields.");
         return;
     }
+     loader.classList.remove('d-none');
+     loader.classList.add('d-flex')
     // Pay success modal open after two seconds:
     setTimeout(() => onPaySuccess(), 2000)
 });
@@ -376,6 +379,8 @@ function onPaySuccess() {
     salonContainer.classList.add('d-none');
     payModal.classList.add('d-flex');
     openCustomer();
+    loader.classList.add('d-none');
+        loader.classList.remove('d-flex');
     setTimeout(() => {
         payModal.classList.remove('d-flex');
         payModal.classList.add('d-none');
@@ -403,6 +408,7 @@ function onPaySuccess() {
 
         // Finally, update cart to reflect cleared state
         updateCart('cart-summary');
+        
         showTab('services');
         form.reset()
     }, 2000)

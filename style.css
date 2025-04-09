@@ -106,7 +106,6 @@ h6 {
 }
 
 .booking-container {
-  display: flex;
   gap: 12px;
   padding: 20px;
   flex-wrap: wrap;
@@ -158,6 +157,9 @@ h6 {
 }
 
 .services {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
   flex: 2;
   max-width: 482px;
   padding: 0 80px;
@@ -183,6 +185,7 @@ h6 {
   font-size: 18px;
   line-height: 20px;
   letter-spacing: -0.41px;
+  color: #282A31;
 }
 
 .service-time {
@@ -1170,6 +1173,7 @@ textarea {
 .carousel_dot.is-selected {
   background-color: var(--color-active-state);
 }
+
 /* loader styles */
 .loading-state {
   position: fixed;
@@ -1182,14 +1186,16 @@ textarea {
   justify-content: center;
   align-items: center;
 }
+
 .loading {
   width: 100px;
   height: 100px;
   border-radius: 50%;
   border: 10px solid #ddd;
-  border-top-color:#23B2AF;
+  border-top-color: #23B2AF;
   animation: loading 1s linear infinite;
 }
+
 @keyframes loading {
   to {
     transform: rotate(360deg);
@@ -1214,6 +1220,10 @@ textarea {
   .salon-kiddy {
     display: none;
   }
+
+  .mobile-cart {
+    display: none;
+  }
 }
 
 @media screen and (max-width:1180px) {
@@ -1227,7 +1237,7 @@ textarea {
     border-radius: 0;
     max-width: calc(100% - 35px);
     padding: 16px;
-    background: #F3F6FA;
+    background: #ffffff;
     padding-bottom: 0;
   }
 
@@ -1260,24 +1270,24 @@ textarea {
   .services {
     padding: 0 8px;
     min-width: fit-content;
+    gap: 22px;
+    max-width: 100%;
   }
 
   .salon-container {
     padding: 0;
-    background: #F3F6FA;
   }
 
-  .categories,
-  .categories li {
-    border: none;
+  .cart-added {
+    display: none;
   }
 
-  .categories li.active {
-    border: none;
+  .categories {
+    display: none;
   }
 
-  .services {
-    max-height: 40px;
+  .accordion-content {
+    max-height: 0px;
     overflow: hidden;
   }
 
@@ -1285,6 +1295,9 @@ textarea {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    margin-bottom: 8px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid #b0aaaa66;
   }
 
   .category-title img {
@@ -1297,8 +1310,12 @@ textarea {
     overflow: hidden;
   }
 
-  .category-toogle img {
+  .category-toggle {
     transform: rotate(180deg);
+  }
+
+  .accordion-content .service-item:first-child {
+    border-top: 0;
   }
 
   .booking-container {
@@ -1307,6 +1324,7 @@ textarea {
     padding-top: 6px;
     gap: 24px;
     justify-content: space-between;
+    flex-direction: column;
   }
 
   .cart-added {
@@ -1336,6 +1354,10 @@ textarea {
 
   .cart-summary {
     margin-left: inherit;
+  }
+
+  #cart-summary {
+    display: none;
   }
 
   .salon-header {
@@ -1428,9 +1450,10 @@ textarea {
 
   .booking-selection {
     padding: 0 16px;
-    width: 100%;
+    width: calc(100% - 16px);
     overflow-x: hidden;
     gap: 38px;
+    margin-top: 16px;
   }
 
   .date-items {
@@ -1446,5 +1469,166 @@ textarea {
   .date-selection {
     padding-bottom: 2rem;
     border-bottom: 1px solid #b0aaaa66;
+  }
+
+  .tabs {
+    margin-bottom: 16px;
+    max-width: 100%;
+  }
+
+  .mobile-cart h2 {
+    color: #282A31;
+    font-weight: 600;
+    font-size: 30px;
+    line-height: 30px;
+    letter-spacing: -0.41px;
+  }
+
+  .mobile-cart small {
+    color: #213963;
+    ;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 20px;
+    letter-spacing: -0.41px;
+
+  }
+
+  .mobile-cart button {
+    color: #ffffff;
+    background-color: #23B2AF;
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 20px;
+    letter-spacing: -0.41px;
+    text-align: center;
+    height: 52px;
+    width: 160px;
+    border-radius: 12px;
+    border: none;
+  }
+
+  .mobile-cart {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .cart-summary {
+    max-width: 100%;
+  }
+
+  .salon-kid-mob h1 {
+    color: #282A31;
+    font-weight: 900;
+    font-size: 16px;
+    line-height: 24px;
+    letter-spacing: -0.41px;
+  }
+
+  .summary-service {
+    display: flex;
+    width: 80%;
+    justify-content: space-between;
+  }
+
+  .service-summary-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 12px;
+    align-items: center;
+    border-bottom: 1px solid #b0aaaa66;
+  }
+
+  .service-summary {
+    background-color: #F3F6FA;
+    border-radius: 12px;
+  }
+
+  .service-summary-item:last-child {
+    border-radius: 12px;
+  }
+
+  .add-service {
+    color: #23B2AF;
+    font-weight: 600;
+    font-size: 13px;
+    line-height: 17px;
+    letter-spacing: -0.41px;
+    margin-top: 18px;
+    margin-bottom: 15px;
+    text-align: right;
+  }
+
+  .summary-book-title {
+    color: #282A31;
+    font-weight: 600;
+    font-size: 17px;
+    line-height: 30px;
+    letter-spacing: -0.41px;
+    margin-bottom: 13px;
+  }
+
+  .payment-item {
+    color: #282A31;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 20px;
+    letter-spacing: -0.41px;
+
+  }
+
+  .payment-price {
+    color: #282A31;
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 17px;
+    letter-spacing: -0.41px;
+
+  }
+
+  .discount-price {
+    color: #FC9752;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 17px;
+    letter-spacing: -0.41px;
+
+  }
+
+  .payment-card .payment-list>div,
+  .payment-card .payment-total {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 16px;
+  }
+
+  .payment-list {
+    border-bottom: 1px solid #b0aaaa66;
+  }
+
+  .payment-card {
+    background-color: #F3F6FA;
+    border-radius: 12px;
+  }
+
+  .header-hidden .salon-image,
+  .header-hidden .salon-info {
+    display: none;
+  }
+
+  .modal-container {
+    position: static;
+    padding: 0px;
+    max-height: max-content;
+  }
+
+  .close-modal {
+    display: none;
+  }
+
+  .book-btn {
+    margin-bottom: 100px;
   }
 }

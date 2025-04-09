@@ -29,11 +29,59 @@ const services = {
 // Load categories
 const categoryList = document.getElementById("category-list");
 const servicesContainer = document.getElementById("services-container");
+const bookingContainer = document.getElementById('booking-container');
+const salonHeader = document.getElementById('salon-header');
+const paymentSummary = document.getElementById('payment-summary');
+let modal = document.getElementById('modal-container');
+let overlay = document.getElementById('overlay');
 
-function openStaff() {
+function openStaff(id) {
     document.getElementById('add-services').classList.add('d-none');
+    document.getElementById('booking-selection').classList.remove('d-none');
     document.getElementById('booking-selection').classList.add('d-flex');
-    document.getElementById('book-staff').setAttribute('onclick', 'openCustomer()')
+    //check mobile cart button
+    if (id === 'book-mob') {
+        document.getElementById(id).setAttribute('onclick', 'openSummary()');
+        openKiddyHeader();
+    } else {
+        document.getElementById('book-staff').setAttribute('onclick', 'openCustomer()')
+    }
+}
+
+function openKiddyHeader() {
+    salonHeader.classList.add('header-hidden');
+    salonHeader.innerHTML += `
+    <div class="salon-kid-mob" id="salon-kid-mob"
+             style="display: flex;gap: 12px;align-items:center;padding: 16px 0;margin:0 16px;border-bottom: 1px solid #b0aaaa66;">
+                <div  style="display: flex;gap: 9px;align-items: center;">
+                    <img src="./assests//icons/headleftarrow.svg" alt="Back Arrow" />
+                    <img src="./assests//icons/headspin.svg" alt="spinner" />
+                </div>
+                <h1>Kiddy Corture</h1>
+            </div>
+    `
+}
+
+function openSummary() {
+    console.log('openSummary');
+    document.getElementById('booking-selection').classList.remove('d-flex');
+    document.getElementById('booking-selection').classList.add('d-none');
+    document.getElementById('payment-summary').classList.remove('d-none');
+    document.getElementById('book-mob').setAttribute('onclick', 'showModal()');
+
+}
+
+// show modal in mobile:
+function showModal() {
+    bookingContainer.classList.toggle('d-flex')
+    bookingContainer.classList.toggle('d-none')
+    modal.classList.toggle('d-none');
+    modal.classList.toggle('d-flex');
+    if (!modal.classList.contains('view-check')) {
+        modal.classList.add('view-check');
+    } else {
+        modal.classList.remove('view-check');
+    }
 }
 
 Object.keys(services).forEach((category, index) => {
@@ -43,42 +91,52 @@ Object.keys(services).forEach((category, index) => {
     li.onclick = () => {
         document.querySelectorAll(".categories li").forEach(el => el.classList.remove("active"));
         li.classList.add("active");
-        loadServices(category);
+        loadServices(index);
     };
     categoryList.appendChild(li);
 });
 
 // Load services for default category
-function loadServices(category) {
-    servicesContainer.innerHTML = `<h3 class='category-title'>${category} <img src="./assests/icons/downarrow.svg" /> </h3>`;
-    services[category].forEach((item, idx) => {
-        servicesContainer.innerHTML += `
+function loadServices(startIndex) {
+    servicesContainer.innerHTML = ""; // Clear previous content
+
+    const categories = Object.keys(services);
+    const selectedCategories = categories.slice(startIndex, startIndex + 2); // get 2 categories
+
+    selectedCategories.forEach(cat => {
+        const div = document.createElement('div');
+        div.classList.add("services-content");
+
+        // Add category title
+        div.innerHTML = `<h3 class='category-title'>${cat} <img src="./assests/icons/downarrow.svg" /></h3>`;
+        const subDiv = document.createElement('div');
+        subDiv.classList.add('accordion-content')
+        // Add each service under that category
+        services[cat].forEach(item => {
+            subDiv.innerHTML += `
         <div class="service-item">
-        <div class="service-selection">
-           <label>
-            <input type="checkbox" data-category="${category}" data-name="${item.name}" data-price="${item.price}"
-            data-duration=${item.duration} onchange="updateCart('cart-summary')" />
-          </label>
-          <div class="service-list">  <small class="service-name">${item.name}</small>
-        <small class="service-time">${item.duration}</small> </div>
-        
-        </div>
+          <div class="service-selection">
+            <label>
+              <input type="checkbox" data-category="${cat}" data-name="${item.name}" data-price="${item.price}"
+                data-duration="${item.duration}" onchange="updateCart('cart-summary')" />
+            </label>
+            <div class="service-list">
+              <small class="service-name">${item.name}</small>
+              <small class="service-time">${item.duration}</small>
+            </div>
+          </div>
           <div class="service-price">
-            $${item.price}<br>
-           
+            $${item.price}
           </div>
         </div>
       `;
+        });
+        div.appendChild(subDiv)
+        servicesContainer.appendChild(div);
     });
-    // mobile accordion toogle:
-    let categoryTitle = document.querySelector('.category-title img');
-
-    categoryTitle.onclick = function () {
-        let servicesContainer = document.getElementById('services-container');
-        servicesContainer.classList.toggle('category-toogle');
-    }
 }
-loadServices(Object.keys(services)[0]);
+
+loadServices(0);
 
 // Tab switching logic
 function showTab(tab) {
@@ -87,21 +145,24 @@ function showTab(tab) {
 
     document.getElementById(`${tab}-tab`).classList.add('active-tab');
     document.getElementById(`${tab}-section`).classList.add('active-tab-content');
-    document.querySelector('.empty-cart').innerHTML = tab === 'vouchers' ? `
-     <div class="empty-cart-icon">
-                            <img src="./assests/icons/giftbox.png" alt="Empty" />
-                            <p>Surprise your loved ones with 
-                                our Gift Vouchers, Select 
-                                some Gift Vouchers.</p>                             
-                        </div>
-    ` :
-        ` <div class="empty-cart-icon">
-                            <img src="./assests/icons/serviceemptycard.png" alt="Empty" />
-                            <p>Good looks always gives you
-                                the confidence! Go ahead,
-                                Select some services.</p>
-                                
-                        </div>`
+    let emptyCart = document.querySelector('.empty-cart');
+    if (emptyCart) {
+        emptyCart.innerHTML = tab === 'vouchers' ? `
+    <div class="empty-cart-icon">
+                           <img src="./assests/icons/giftbox.png" alt="Empty" />
+                           <p>Surprise your loved ones with 
+                               our Gift Vouchers, Select 
+                               some Gift Vouchers.</p>                             
+                       </div>
+   ` :
+            ` <div class="empty-cart-icon">
+                           <img src="./assests/icons/serviceemptycard.png" alt="Empty" />
+                           <p>Good looks always gives you
+                               the confidence! Go ahead,
+                               Select some services.</p>
+                               
+                       </div>`
+    }
 }
 
 const vouchers = [
@@ -169,6 +230,7 @@ document.addEventListener("DOMContentLoaded", () => {
 function updateCart(id) {
 
     const cart = document.getElementById(id);
+    const mobileCart = document.getElementById('mobile-cart')
     const selectedStaff = document.querySelector('input[name="staff"]:checked')?.value || 'No preference';
     const selectedDate = document.querySelector('.date-item.active')?.textContent.trim().replace(/\s+/g, ' ') || '';
     const selectedTime = document.querySelector('.time-options button.active')?.textContent.trim() || '';
@@ -178,6 +240,7 @@ function updateCart(id) {
     let total = 0;
     let itemCount = 0;
     let itemsHTML = '';
+    let payItems = '';
 
     selectedServices.forEach(input => {
         const name = input.dataset.name;
@@ -195,6 +258,22 @@ function updateCart(id) {
                 <span>${duration}</span>
             </div>
         `;
+        // add payment summary content
+        payItems += `
+          <div class="service-summary-item">
+        <div class="summary-service">
+        <div class="service-list">
+            <small class="service-name">${name}</small>
+            <small class="service-time">Staff: ${selectedStaff.charAt(0).toUpperCase() + selectedStaff.slice(1).toLowerCase()}</small>
+        </div>
+        <div class="service-price">
+           $${price.toFixed()}
+        </div>
+    </div>
+     <img src="./assests/icons/deleteicon.svg" alt="delete icon"
+                                style="width: 20px; height: 22px;" />
+      </div>
+`
     });
 
     selectedVouchers.forEach(input => {
@@ -227,6 +306,13 @@ function updateCart(id) {
                         Select some services or gift vouchers.</p>
                 </div>
             </div>`;
+        mobileCart.innerHTML = `
+            <div style="display: flex;flex-direction: column;gap: 4px;">
+                        <h2>$0</h2>
+                        <small>0 services</small>
+                    </div>
+                    <button id="book-mob" onclick="openStaff('book-mob')">Book Now</button>
+            `;
         return;
     }
 
@@ -254,6 +340,7 @@ function updateCart(id) {
     const tax = 0;
     const grandTotal = total + tax;
 
+    //  cart item added
     cart.innerHTML = `
         <div class="cart-added">
             <div class="whole-cart">
@@ -288,6 +375,69 @@ function updateCart(id) {
             </div>
         </div>
     `;
+
+    paymentSummary.innerHTML = `
+                    <div>
+                    <h1 class="summary-book-title">Booking Summary</h1>
+                    <div class="service-summary">
+                      ${payItems || 'noservice'}
+                    </div>
+                    <p class="add-service">Add service</p>
+                    <div class="service-summary">
+                        <div class="service-summary-item">
+                            <div class="summary-service">
+                                <div class="service-list">
+                                    <small class="service-name">Date: ${String(parseInt(selectedDate)).padStart(2, '0')} (Tuesday)</small>
+                                </div>
+                            </div>
+                            <img src="./assests/icons/editicon.svg" alt="edit icon"
+                                style="width: 18px; height: 17px;" />
+                        </div>
+                        <div class="service-summary-item">
+                            <div class="summary-service">
+                                <div class="service-list">
+                                    <small class="service-name">Time: ${selectedTime} </small>
+                                </div>
+                            </div>
+                            <img src="./assests/icons/editicon.svg" alt="edit icon"
+                                style="width: 18px; height: 17px;" />
+                        </div>
+                    </div>
+                    <div class="payment-summary">
+                        <h2 class="summary-book-title" style="margin-top:25px">Payment summary</h2>
+                        <div class="payment-card">
+                            <div class="payment-list">
+                                <div>
+                                    <small class="payment-item">Item total</small>
+                                    <small class="payment-price">$${grandTotal.toFixed()}</small>
+                                </div>
+                                <div>
+                                    <small class="payment-item">Discount</small>
+                                    <small class="discount-price">-$30</small>
+                                </div>
+                                <div>
+                                    <small class="payment-item">Tax (GST) </small>
+                                    <small class="payment-price">$10</small>
+                                </div>
+                            </div>
+                            <div class="payment-total">
+                                <small class="payment-item">Total</small>
+                                <small class="payment-price">$${grandTotal.toFixed() - 20}</small>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+    `
+
+    // Update mobile cart
+    mobileCart.innerHTML = `
+<div style="display: flex;flex-direction: column;gap: 4px;">
+  <h2>$${grandTotal.toFixed()}</h2>
+  <small>${itemCount} ${itemCount === 1 ? 'service' : 'services'}</small>
+</div>
+<button id="book-mob"  onclick="openStaff('book-mob')"} >Book Now</button>
+`;
 }
 
 document.querySelectorAll('#voucher-list input').forEach(input => {
@@ -301,7 +451,8 @@ document.querySelectorAll('.service-item input').forEach(input => {
 document.querySelectorAll('input[name="staff"]').forEach(input => {
     input.addEventListener('change', () => {
         updateCart('cart-summary');
-        document.getElementById('book-staff').setAttribute('onclick', 'openCustomer()')
+        document.getElementById('book-staff')?.setAttribute('onclick', 'openCustomer()');
+        document.getElementById('book-mob')?.setAttribute('onclick', 'openSummary()')
     })
 });
 
@@ -310,7 +461,8 @@ document.querySelectorAll('.date-item').forEach(item => {
         document.querySelectorAll('.date-item').forEach(d => d.classList.remove('active'));
         item.classList.add('active');
         updateCart('cart-summary');
-        document.getElementById('book-staff').setAttribute('onclick', 'openCustomer()')
+        document.getElementById('book-staff')?.setAttribute('onclick', 'openCustomer()')
+        document.getElementById('book-mob')?.setAttribute('onclick', 'openSummary()')
     });
 });
 
@@ -319,7 +471,9 @@ document.querySelectorAll('.time-options button').forEach(btn => {
         document.querySelectorAll('.time-options button').forEach(b => b.classList.remove('active'));
         btn.classList.add('active');
         updateCart('cart-summary');
-        document.getElementById('book-staff').setAttribute('onclick', 'openCustomer()')
+
+        document.getElementById('book-staff')?.setAttribute('onclick', 'openCustomer()')
+        document.getElementById('book-mob')?.setAttribute('onclick', 'openSummary()')
     });
 });
 
@@ -342,8 +496,6 @@ dobInput.addEventListener("change", () => {
 
 // modal Open and close function:
 function openCustomer() {
-    let modal = document.getElementById('modal-container');
-    let overlay = document.getElementById('overlay');
     modal.classList.toggle('d-none');
     modal.classList.toggle('d-flex');
     overlay.style.visibility =
@@ -367,8 +519,9 @@ form.addEventListener("submit", function (e) {
         alert("Please fill in all required fields.");
         return;
     }
-     loader.classList.remove('d-none');
-     loader.classList.add('d-flex')
+    // loading states add
+    loader.classList.remove('d-none');
+    loader.classList.add('d-flex')
     // Pay success modal open after two seconds:
     setTimeout(() => onPaySuccess(), 2000)
 });
@@ -377,10 +530,14 @@ function onPaySuccess() {
     let salonContainer = document.querySelector('.salon-container');
     let payModal = document.getElementById('pay-modal');
     salonContainer.classList.add('d-none');
-    payModal.classList.add('d-flex');
-    openCustomer();
+    payModal.classList.add('d-flex'); // show payment success modal
+    // check modal container view
+    if (!modal.classList.contains('view-check')) {
+        openCustomer();
+    }
+    // loading states remove
     loader.classList.add('d-none');
-        loader.classList.remove('d-flex');
+    loader.classList.remove('d-flex');
     setTimeout(() => {
         payModal.classList.remove('d-flex');
         payModal.classList.add('d-none');
@@ -388,6 +545,12 @@ function onPaySuccess() {
         document.getElementById('add-services').classList.remove('d-none');
         document.getElementById('booking-selection').classList.remove('d-flex');
         document.getElementById('booking-selection').classList.add('d-none');
+        document.getElementById('payment-summary').classList.add('d-none');
+        // after submit show again all services
+        if (modal.classList.contains('view-check')) showModal(); slideInterval();
+        let salonKid = document.getElementById('salon-kid-mob');
+        if (salonKid) document.getElementById('salon-kid-mob').remove();
+        salonHeader.classList.remove('header-hidden');
 
         // Clear selected services
         document.querySelectorAll('.service-item input:checked').forEach(input => {
@@ -408,7 +571,7 @@ function onPaySuccess() {
 
         // Finally, update cart to reflect cleared state
         updateCart('cart-summary');
-        
+
         showTab('services');
         form.reset()
     }, 2000)
@@ -436,10 +599,8 @@ const createDots = (carousel, initSlides) => {
         slide.classList.contains('is-selected') && dot.classList.add('is-selected')
         dotsContainer.appendChild(dot)
     })
-
-    carousel.appendChild(dotsContainer)
-
-    return dotsContainer
+    carousel.appendChild(dotsContainer);
+    return dotsContainer;
 }
 
 // Updating relevant dot
@@ -506,7 +667,7 @@ dotNav.addEventListener('click', e => {
 })
 
 // Auto sliding
-const slideTiming = 5000
+const slideTiming = 3000
 let interval
 const slideInterval = () => interval = setInterval(() => nextBtn.click(), slideTiming)
 
@@ -514,5 +675,14 @@ carousel.addEventListener('mouseover', () => clearInterval(interval))
 carousel.addEventListener('mouseleave', slideInterval)
 slideInterval();
 
+// mobile accordion functionality:
+let categoryTitleImage = document.querySelectorAll('.category-title img');
+let accordionContent = document.querySelectorAll('.accordion-content');
 
-
+categoryTitleImage.forEach((imgItem, ind) => {
+    imgItem.onclick = () => {
+        imgItem.classList.toggle('category-toggle');
+        accordionContent[ind].style.maxHeight = accordionContent[ind].style.maxHeight === 'fit-content' ? "0px" : "fit-content";
+        console.log(ind, 'ind', accordionContent[ind]);
+    }
+})

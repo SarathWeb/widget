@@ -10,7 +10,8 @@
 
 <body>
     <div class="salon-container">
-        <header class="salon-header">
+        <header class="salon-header" id="salon-header">
+
             <div class="salon-info">
                 <div class="icon">N</div>
                 <div class="salon-details">
@@ -96,7 +97,7 @@
 
         </header>
 
-        <main class="booking-container">
+        <main class="booking-container d-flex" id="booking-container">
 
             <div id="add-services">
                 <div class="tabs">
@@ -113,8 +114,6 @@
                     <section class="services" id="services-container">
                         <!-- Services loaded via JS -->
                     </section>
-
-
                 </div>
 
                 <!-- Gift Vouchers Section -->
@@ -208,11 +207,77 @@
 
                 </div>
             </section>
+            <section class="d-none" id="payment-summary" style="border-bottom: 1px solid #b0aaaa66;margin-top: 20px;">
+                <!-- load payment carts -->
+                <div>
+                    <h1 class="summary-book-title">Booking Summary</h1>
+                    <div class="service-summary">
+                        <div class="service-summary-item">
+                            <div class="summary-service">
+                                <div class="service-list">
+                                    <small class="service-name">Select services</small>
+                                    <small class="service-time">Staff Name</small>
+                                </div>
+                                <div class="service-price">
+                                    $0
+                                </div>
+                            </div>
+                            <img src="./assests/icons/deleteicon.svg" alt="delete icon"
+                                style="width: 20px; height: 22px;" />
+                        </div>
+                    </div>
+                    <p class="add-service">Add service</p>
+                    <div class="service-summary">
+                        <div class="service-summary-item">
+                            <div class="summary-service">
+                                <div class="service-list">
+                                    <small class="service-name">Date:</small>
+                                </div>
+                            </div>
+                            <img src="./assests/icons/editicon.svg" alt="edit icon"
+                                style="width: 18px; height: 17px;" />
+                        </div>
+                        <div class="service-summary-item">
+                            <div class="summary-service">
+                                <div class="service-list">
+                                    <small class="service-name">Time:</small>
+                                </div>
+                            </div>
+                            <img src="./assests/icons/editicon.svg" alt="edit icon"
+                                style="width: 18px; height: 17px;" />
+                        </div>
+                    </div>
+                    <div class="payment-summary">
+                        <h2 class="summary-book-title" style="margin-top:25px">Payment summary</h2>
+                        <div class="payment-card">
+                            <div class="payment-list">
+                                <div>
+                                    <small class="payment-item">Item total</small>
+                                    <small class="payment-price">$0</small>
+                                </div>
+                                <div>
+                                    <small class="payment-item">Discount</small>
+                                    <small class="discount-price">$0</small>
+                                </div>
+                                <div>
+                                    <small class="payment-item">Tax (GST) </small>
+                                    <small class="payment-price">$0</small>
+                                </div>
+                            </div>
+                            <div class="payment-total">
+                                <small class="payment-item">Total</small>
+                                <small class="payment-price">$0</small>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </section>
+
             <aside class="cart-summary">
 
                 <div id="cart-summary">
-
-
+                    <!-- desktop cart add -->
                     <h2 class="empty-title">Your Card is Empty</h2>
                     <div class="empty-cart">
                         <div class="empty-cart-icon">
@@ -224,6 +289,15 @@
                         </div>
                     </div>
                 </div>
+                <!-- mobile cart add -->
+                <div class="mobile-cart" id="mobile-cart">
+                    <div style="display: flex;flex-direction: column;gap: 4px;">
+                        <h2>$0</h2>
+                        <small>0 services</small>
+                    </div>
+                    <button id="book-mob" onclick="openStaff('book-mob')">Book Now</button>
+                </div>
+
 
             </aside>
         </main>
@@ -313,10 +387,10 @@
 
     </footer>
     <div class="overlay-span" id="overlay" onclick="openCustomer()"></div>
-   <!-- loader -->
+    <!-- loader -->
     <div class="loading-state d-none" id="loading-state">
         <div class="loading"></div>
-      </div>
+    </div>
 
     <script src="./index.js"></script>
 </body>
